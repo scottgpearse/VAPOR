@@ -28,6 +28,7 @@
 #include "BannerGUI.h"
 #include <vapor/CMakeConfig.h>
 #include <vapor/ResourcePath.h>
+#include <vapor/OSPRay.h>
 #ifdef WIN32
 #include "Windows.h"
 #endif
@@ -98,6 +99,8 @@ if (getenv("VAPOR_DEBUG"))
 #ifdef IRIX    
 	    QApplication::setColorSpec( QApplication::ManyColor );
 #endif
+    
+    VOSP::Initialize(&argc, argv);
     
     	QApplication a( argc, argv,true );
     
@@ -176,6 +179,7 @@ if (getenv("VAPOR_DEBUG"))
     a.connect( &a, SIGNAL(lastWindowClosed()), &a, SLOT(quit()) );
 	int estatus = a.exec();
 
+    VOSP::Shutdown();
 	if (diagfp) fclose(diagfp);
 	if (errfp) fclose(errfp);
 	exit(estatus);
