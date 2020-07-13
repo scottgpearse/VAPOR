@@ -141,8 +141,8 @@ static bool ComputeSideBBoxes(ivec3 side, int fastDim, int slowDim, vec3 *boxMin
     return false;
 }
 
-VolumeCellTraversal::VolumeCellTraversal(GLManager *gl)
-: VolumeRegular(gl),
+VolumeCellTraversal::VolumeCellTraversal(GLManager *gl, VolumeRenderer *renderer)
+: VolumeRegular(gl, renderer),
 _useHighPrecisionTriangleRoutine(false)
 {
     _coordTexture.Generate(GL_NEAREST);
@@ -155,10 +155,14 @@ VolumeCellTraversal::~VolumeCellTraversal()
 {
 }
 
+#include <vapor/Progress.h>
+
 int VolumeCellTraversal::LoadData(const Grid *grid)
 {
     if (VolumeRegular::LoadData(grid) < 0)
         return -1;
+    
+    Progress::Begin("Load", 1, true);
     
     _useHighPrecisionTriangleRoutine = _needsHighPrecisionTriangleRoutine(grid);
     _gridHasInvertedCoordinateSystemHandiness = !grid->HasInvertedCoordinateSystemHandiness();
@@ -344,6 +348,7 @@ int VolumeCellTraversal::LoadData(const Grid *grid)
     delete [] data;
     delete [] boxMins;
     delete [] boxMaxs;
+    Progress::Finish();
     return 0;
 }
 
