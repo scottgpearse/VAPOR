@@ -313,7 +313,7 @@ void MainForm::_initMembers() {
 //        }
             
         if (!_progressDialog) {
-            _progressDialog = new QProgressDialog(QString::fromStdString(title), "Cancel", 0, n, this);
+            _progressDialog = new QProgressDialog(QString::fromStdString(title), QString("Cancel"), 0, n, this);
             _progressDialog->setWindowModality(Qt::WindowModal);
             _progressDialog->setAutoClose(false);
             _progressDialog->setMinimumDuration(500);
@@ -1250,11 +1250,10 @@ void MainForm::_createDeveloperMenu()
     _developerMenu = menuBar()->addMenu("Developer");
     _developerMenu->addAction("Show PWidget Demo", _paramsWidgetDemo, &QWidget::show);
     
-    QAction *enableProgress = new QAction("Enable Progress Bar");
+    QAction *enableProgress = new QAction(QString("Enable Progress Bar"));
     enableProgress->setCheckable(true);
     QObject::connect(enableProgress, &QAction::toggled, [](bool checked){
         _enableProgress=checked;
-        printf("_disableProgress = %i\n", _enableProgress);
     });
     _developerMenu->addAction(enableProgress);
 }
