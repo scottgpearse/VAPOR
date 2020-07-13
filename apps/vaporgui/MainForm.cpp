@@ -1250,7 +1250,7 @@ void MainForm::_createDeveloperMenu()
     _developerMenu = menuBar()->addMenu("Developer");
     _developerMenu->addAction("Show PWidget Demo", _paramsWidgetDemo, &QWidget::show);
     
-    QAction *enableProgress = new QAction(QString("Enable Progress Bar"));
+    QAction *enableProgress = new QAction(QString("Enable Progress Bar"), nullptr);
     enableProgress->setCheckable(true);
     QObject::connect(enableProgress, &QAction::toggled, [](bool checked){
         _enableProgress=checked;
