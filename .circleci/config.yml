@@ -51,6 +51,7 @@ jobs:
           name: make installer
           command: |
             cd /VAPOR/build
+            git checkout master
             cmake -DCMAKE_BUILD_TYPE:String=Release -DDIST_INSTALLER:string=ON ..
             make -j7
             make installer
@@ -117,6 +118,7 @@ jobs:
           name: make installer
           command: |
             cd /VAPOR/build
+            git checkout master
             cmake -DCMAKE_BUILD_TYPE:String=Release -DDIST_INSTALLER:string=ON ..
             make -j7
             make installer
@@ -196,6 +198,7 @@ jobs:
             cd /VAPOR
             git pull
             cd build
+            git checkout master
             cmake3 -DCMAKE_BUILD_TYPE:String=Release -DDIST_INSTALLER:string=ON ..
             make
             make installer
@@ -323,6 +326,7 @@ jobs:
             cp site_files/site.NCAR site.local
             mkdir build
             cd build
+            git checkout master
             /usr/local/bin/cmake -DCPACK_BINARY_DRAGNDROP=ON -DCMAKE_BUILD_TYPE:String=Release -DDIST_INSTALLER:string=ON ..
             make
             make installer
@@ -407,6 +411,7 @@ jobs:
             Copy-Item site_files\* -Destination .
             mkdir build
             cd build
+            git checkout master
             & 'C:\\Program Files\\CMake\\bin\\cmake.exe' -S C:\Users\circleci\project -B C:\Users\circleci\project\build -DCMAKE_BUILD_TYPE:STRING=Release -G 'Visual Studio 14 2015' -A x64
             msbuild C:\Users\circleci\project\build\PACKAGE.vcxproj /p:Configuration=Release /p:Platform=x64
             mkdir -p C:\Users\circleci\project\tmp\workspace\installers
@@ -467,8 +472,6 @@ jobs:
             echo $message
             ghr -b "${message}" -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -prerelease -c ${CIRCLE_SHA1} -replace Weekly /tmp/workspace/installers
 
-
-
 workflows:
   build:
     jobs:
@@ -509,11 +512,19 @@ workflows:
   myNightly:
     triggers:
       - schedule:
+<<<<<<< HEAD
            cron: "* * * * *" #weekly cron job on Friday @ 2:00am MST
+=======
+           cron: "* * * * *" #weekly cron job on Friday @ 10:00am MST
+>>>>>>> 12b4c8b9e0f6c67b43b088187795659ce2895728
            filters:
              branches:
                only:
                  - myNightly
+<<<<<<< HEAD
+=======
+                 #- master
+>>>>>>> 12b4c8b9e0f6c67b43b088187795659ce2895728
     jobs:
       - build_ubuntu18_installer
       - build_ubuntu16_installer
